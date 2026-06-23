@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ENTORNO DE PRUEBAS: Conexión Láctea</title>
+    <title>Examen Avanzado de Ingeniería: Yogurt & HACCP</title>
     <style>
         :root {
             --primary: #0b2545;
@@ -111,6 +111,8 @@
         .option.correct { background: #d1fae5 !important; border-color: var(--success) !important; color: #065f46; font-weight: bold; }
         .option.wrong { background: #fee2e2 !important; border-color: var(--error) !important; color: #991b1b; }
 
+        .checkbox { margin-right: 15px; transform: scale(1.3); }
+
         .blank-input {
             border-bottom: 2px solid var(--primary);
             border-top: none; border-left: none; border-right: none;
@@ -119,6 +121,29 @@
             background: #fffbdf;
             border-radius: 4px;
         }
+
+        /* Contenedores de Arrastre */
+        .drag-zone {
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            min-height: 50px;
+        }
+
+        .drag-item {
+            background: var(--white);
+            border: 2px solid #94a3b8;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: grab;
+            margin-bottom: 8px;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .drag-item:active { cursor: grabbing; transform: scale(0.98); }
 
         .footer {
             margin-top: 30px;
@@ -167,65 +192,252 @@
 
 <div class="quiz-container">
     <div class="header">
-        <img src="https://curc.unah.edu.hn/assets/assets/careers/icons/ia.png" alt="Logo UNAH">
+       <img src="https://curc.unah.edu.hn/assets/assets/careers/icons/ia.png" alt="Logo UNAH">
         <img src="https://tecdanli.unah.edu.hn/dmsdocument/18948-campus-el-paraiso-color-b-png" alt="Logo Control">
     </div>
 
     <div id="screen-login" class="screen active">
-        <h1>PROYECTO PILOTO: Test de Conectividad Sheets</h1>
-        <p style="text-align: center; color: #64748b;">Escriba un nombre ficticio para realizar el simulacro de transmisión de datos rápido (Solo 2 preguntas).</p>
-        <input type="text" id="student-name" class="input-field" placeholder="Nombre del Alumno de Prueba">
+        <h1>Evaluación Técnica: Tecnología Láctea & HACCP</h1>
+        <p style="text-align: center; color: #64748b;">Protocolo Integral HACCP, Balances y Operaciones Piloto de Elaboracion de Yogurt</p>
+        <input type="text" id="student-name" class="input-field" placeholder="Nombre Completo del Estudiante">
         <div style="text-align: center;">
-            <button class="btn" onclick="startQuiz()">Iniciar Test Corto</button>
+            <button class="btn" onclick="startQuiz()">Comenzar Evaluación</button>
         </div>
     </div>
 
     <div id="screen-quiz" class="screen">
-        <div id="badge-type" class="badge">Prueba Técnica</div>
-        <div id="progress" style="float: right; font-weight: bold; color: #64748b;">1 / 2</div>
+        <div id="badge-type" class="badge">Tipo de Pregunta</div>
+        <div id="progress" style="float: right; font-weight: bold; color: #64748b;">1 / 25</div>
         <div id="question-area" style="margin-top: 20px;"></div>
         <div id="feedback-area" class="feedback"></div>
         <div class="footer">
-            <button id="btn-next" class="btn" onclick="processNext()">Validar Respuesta</button>
+            <button id="btn-next" class="btn" onclick="processNext()">Continuar</button>
         </div>
     </div>
 
     <div id="screen-result" class="screen">
         <div id="capture-area" class="certificate">
-            <h2 style="margin: 0; color: var(--primary);">PILOTO TERMINADO CON ÉXITO</h2>
-            <p style="margin: 5px 0; font-size: 14px;">Simulación Corta de Ingeniería de Software Educativo</p>
+            <h2 style="margin: 0; color: var(--primary);">COMPROBANTE DE CALIFICACIÓN</h2>
+            <p style="margin: 5px 0; font-size: 14px;">Módulo Avanzado de Inocuidad Láctea y balances de Materia</p>
             <hr style="margin: 20px 0; border: 1px solid #e2e8f0;">
-            <p style="margin: 0; font-style: italic;">Nombre registrado:</p>
+            <p style="margin: 0; font-style: italic;">Se extiende el presente registro a:</p>
             <div id="res-name" style="font-size: 24px; font-weight: bold; margin: 10px 0; border-bottom: 2px solid #e2e8f0; display: inline-block; min-width: 80%;">---</div>
-            <p style="margin-top: 20px; font-weight: bold;">Calificación de Prueba:</p>
-            <div id="res-score" class="score-big">0 / 2</div>
+            <p style="margin-top: 20px; font-weight: bold;">Calificación Oficial:</p>
+            <div id="res-score" class="score-big">0 / 25</div>
             <p id="res-message" style="font-weight: 500;"></p>
             <div id="res-time" style="font-size: 12px; color: #64748b; margin-top: 20px;">---</div>
         </div>
-        <p style="text-align: center; font-weight: bold; color: var(--success); margin-top: 20px;">🚀 Los datos acaban de ser enviados de fondo hacia tu formulario de Google.</p>
+        <p style="text-align: center; font-weight: bold; color: var(--error); margin-top: 20px;">⚠️ Capture esta pantalla completa como evidencia oficial intransferible de evaluación.</p>
         <div style="text-align: center;">
-            <button class="btn" style="background: #64748b;" onclick="location.reload()">Probar Otro Nombre</button>
+            <button class="btn" style="background: #64748b;" onclick="location.reload()">Reiniciar Cuestionario</button>
         </div>
     </div>
 </div>
 
 <script>
-// BANCO REDUCIDO A SOLO 2 PREGUNTAS (1 Selección Única y 1 de Rellenar Espacio)
+// BANCO DE DATOS DE 25 PREGUNTAS FIEL AL PROTOCOLO
 const rawData = [
     {
         type: "single",
-        category: "Prueba 1",
+        category: "Teoría",
         q: "¿Cuál es la función tecnológica principal de la leche en polvo en la formulación de yogurt griego artesanal?",
         options: ["Neutralizar la acidez excesiva de los cultivos.", "Incrementar los sólidos totales para dar firmeza al gel.", "Eliminar la necesidad de pasteurización térmica.", "Aportar los microorganismos simbióticos activos."],
         correct: "Incrementar los sólidos totales para dar firmeza al gel.",
         fb: "La leche en polvo incrementa los sólidos totales (caseínas y grasa), amarrando el agua libre y otorgando mayor densidad sin aditivos."
     },
     {
+        type: "single",
+        category: "Análisis de PCC",
+        q: "En el sistema HACCP del yogurt, ¿por qué la pasteurización se considera un Punto Crítico de Control (PCC)?",
+        options: ["Porque es donde se decide el sabor final.", "Porque elimina peligros biológicos patógenos mediante calor.", "Porque es la fase más costosa económicamente.", "Porque permite disolver la leche en polvo sin grumos."],
+        correct: "Porque elimina peligros biológicos patógenos mediante calor.",
+        fb: "Un PCC es una fase diseñada para eliminar o reduce a niveles aceptables un peligro (en este caso biológico)."
+    },
+    {
+        type: "boolean",
+        category: "Teoría",
+        q: "Verdadero o Falso: Las bacterias benéficas del yogurt (L. bulgaricus y S. thermophilus) compiten con ventaja natural contra mohos y coliformes en utensilios sucios.",
+        options: ["Verdadero", "Falso"],
+        correct: "Falso",
+        fb: "Falso. El texto aclara que compiten en desventaja, por lo que la Fase 0 de sanitización es obligatoria."
+    },
+    {
         type: "fill",
-        category: "Prueba 2",
-        q: "En la Fase 0 del protocolo de inocuidad, los utensilios deben sumergirse en agua hirviendo durante un período mínimo de <input type='text' class='blank-input' style='width:40px'> minutos.",
+        category: "Aplicación Técnica",
+        q: "Para una pasteurización correcta, la leche debe mantenerse entre los 85 °C y los <input type='text' class='blank-input' style='width:50px'> °C por un tiempo de 20 minutos.",
+        correct: "88",
+        fb: "El rango crítico de seguridad térmica estipulado es de 85 °C a 88 °C."
+    },
+    {
+        type: "multiple-choice",
+        category: "Inocuidad",
+        q: "Seleccione TODOS los elementos que deben someterse a esterilización térmica en agua a 100°C (Base: Fase 0):",
+        options: ["Termómetro digital", "Manta de abrigo exterior", "Lienzo textil de filtrado", "Cucharas y batidor de globo", "Horno de cocina"],
+        correct: ["Termómetro digital", "Lienzo textil de filtrado", "Cucharas y batidor de globo"],
+        fb: "Solo los materiales que entran en contacto directo con la leche post-pasteurización deben esterilizarse térmicamente."
+    },
+    {
+        type: "single",
+        category: "Estudio de Caso",
+        q: "Caso: Al medir la temperatura de inoculación, el termómetro marca 52°C. Usted decide agregar el cultivo semilla de inmediato. ¿Qué sucederá?",
+        options: ["El yogurt fermentará en la mitad de tiempo.", "El calor destruirá las bacterias benéficas del cultivo.", "El gel quedará con textura de yogurt griego auténtico.", "Se detendrá la caramelización de la lactosa residual."],
+        correct: "El calor destruirá las bacterias benéficas del cultivo.",
+        fb: "Arriba de 45°C, las bacterias lácticas mueren por choque térmico, impidiendo la formación del yogurt."
+    },
+    {
+        type: "fill",
+        category: "Cálculo Agroindustrial",
+        q: "Si usted desea procesar 5 litros de yogurt siguiendo la fórmula base (1L leche : 50g cultivo), ¿cuántos gramos totales de yogurt semilla necesitará? Respuesta: <input type='text' class='blank-input' style='width:60px'> gramos.",
+        correct: "250",
+        fb: "Matemática simple: 5 litros * 50 gramos = 250 gramos de inóculo."
+    },
+    {
+        type: "boolean",
+        category: "Análisis",
+        q: "Verdadero o Falso: El desuerado mecánico del yogurt para hacerlo estilo 'Griego' debe realizarse obligatoriamente a temperatura ambiente.",
+        options: ["Verdadero", "Falso"],
+        correct: "Falso",
+        fb: "Falso. El desuerado debe ser en refrigeración (≤ 4°C) para evitar contaminación cruzada y crecimiento de levaduras."
+    },
+    {
+        type: "single",
+        category: "Teoría",
+        q: "¿Cuál es el color característico del suero lácteo residual que se separa durante el filtrado?",
+        options: ["Blanco opaco", "Verde-amarillento", "Azul cobalto", "Transparente cristalino"],
+        correct: "Verde-amarillento",
+        fb: "El suero contiene riboflavina (vitamina B2) que le otorga su tonalidad verdosa típica."
+    },
+    {
+        type: "multiple-choice",
+        category: "Aplicación",
+        q: "Seleccione las DOS funciones que cumple el enfriamiento acelerado (Baño María inverso) a 43°C:",
+        options: ["Evitar la sobre-cocción de proteínas.", "Alcanzar la temperatura óptima de las bacterias.", "Eliminar la lactosa del yogurt griego.", "Sustituir el proceso de desuerado mecánico."],
+        correct: ["Evitar la sobre-cocción de proteínas.", "Alcanzar la temperatura óptima de las bacterias."],
+        fb: "El enfriamiento rápido detiene el daño térmico y prepara el medio para la vida de las bacterias a 43°C."
+    },
+    {
+        type: "fill",
+        category: "Teoría",
+        q: "El yogurt griego auténtico se logra concentrando las proteínas estructurales llamadas <input type='text' class='blank-input' style='width:120px'>.",
+        correct: "caseínas",
+        fb: "Las caseínas son las proteínas mayoritarias de la leche que forman la red tridimensional del gel."
+    },
+    {
+        type: "single",
+        category: "Estudio de Caso",
+        q: "Caso: Usted usa leche de caja UHT para el proceso. Según la guía, ¿cuál será la vida útil máxima esperada en refrigeración?",
+        options: ["3 a 5 días", "7 a 10 días", "14 a 21 días", "Más de 45 días"],
+        correct: "14 a 21 días",
+        fb: "La leche UHT tiene menos carga competitiva inicial, permitiendo que el yogurt dure hasta 3 semanas."
+    },
+    {
+        type: "boolean",
+        category: "Inocuidad",
+        q: "Verdadero o Falso: El uso de paños de cocina de tela para secar utensilios esterilizados es una práctica recomendada en el protocolo HACCP.",
+        options: ["Verdadero", "Falso"],
+        correct: "Falso",
+        fb: "Falso. Los paños textiles son focos de contaminación. Se debe secar al aire en superficie desinfectada."
+    },
+    {
+        type: "single",
+        category: "Técnica",
+        q: "¿Qué sucede si el tiempo de desuerado es de solo 1 hora en lugar de 4?",
+        options: ["Se obtiene yogurt líquido estándar.", "Se obtiene yogurt griego auténtico.", "El producto se vuelve agrio de inmediato.", "Se inactivan las bacterias termófilas."],
+        correct: "Se obtiene yogurt líquido estándar.",
+        fb: "Menos tiempo de filtrado implica mayor retención de suero, resultando en una consistencia fluida comercial."
+    },
+    {
+        type: "fill",
+        category: "Teoría",
+        q: "Los dos microorganismos inóculos mencionados son Lactobacillus bulgaricus y <input type='text' class='blank-input' style='width:180px'> thermophilus.",
+        correct: "Streptococcus",
+        fb: "La fermentación del yogurt es una simbiosis entre Lactobacillus y Streptococcus."
+    },
+    {
+        type: "boolean",
+        category: "Almacenamiento",
+        q: "Verdadero o Falso: El yogurt elaborado con leche cruda pasteurizada en casa dura más tiempo que el elaborado con leche comercial UHT.",
+        options: ["Verdadero", "Falso"],
+        correct: "Falso",
+        fb: "Falso. La leche cruda casera retiene carga endógena residual que acelera la degradación del producto."
+    },
+    {
+        type: "multiple-choice",
+        category: "Proceso",
+        q: "Seleccione las TRES pautas de la Fase 1 para evitar la caramelización de la lactosa:",
+        options: ["Calentar a fuego medio-bajo.", "Agitar de forma constante.", "Evitar que la sonda toque el fondo.", "Añadir 50g de azúcar blanca.", "Usar baño maría inverso."],
+        correct: ["Calentar a fuego medio-bajo.", "Agitar de forma constante.", "Evitar que la sonda toque el fondo."],
+        fb: "El control de llama, la agitación y la posición de la sonda evitan el quemado local del azúcar de la leche."
+    },
+    {
+        type: "single",
+        category: "Metrología",
+        q: "¿Dónde debe ubicarse exactamente la sonda del termómetro para monitorear el PCC?",
+        options: ["Tocando las paredes laterales de la olla.", "Apoyada firmemente en el fondo metálico.", "En el centro geométrico de la masa líquida.", "En la superficie de la espuma de la leche."],
+        correct: "En el centro geométrico de la masa líquida.",
+        fb: "Solo en el centro geométrico se obtiene la lectura de la temperatura más fría (punto crítico) de la masa."
+    },
+    {
+        type: "single",
+        category: "Ingeniería de Procesos",
+        q: "El 'Baño María Inverso' es un ejemplo de transferencia de calor por:",
+        options: ["Convección forzada", "Radiación térmica", "Conducción térmica", "Evaporación súbita"],
+        correct: "Conducción térmica",
+        fb: "El calor fluye desde la leche caliente hacia el agua con hielo a través de la pared de acero de la olla."
+    },
+    {
+        type: "fill",
+        category: "Sanitización",
+        q: "En la Fase 0, los utensilios deben sumergirse en agua hirviendo durante un período mínimo de <input type='text' class='blank-input' style='width:40px'> minutos.",
         correct: "5",
         fb: "5 minutos es el tiempo técnico mínimo para asegurar la letalidad microbiológica superficial."
+    },
+    {
+        type: "single",
+        category: "Análisis de Peligros",
+        q: "¿Cuál es el riesgo más alto identificado después de la pasteurización?",
+        options: ["La pérdida de grasa por evaporación.", "La contaminación cruzada por utensilios.", "La disolución incorrecta del polvo.", "El exceso de reposo en el termo."],
+        correct: "La contaminación cruzada por utensilios.",
+        fb: "Post-pasteurización, la leche es un medio de cultivo virgen donde cualquier patógeno ambiental crecerá sin competencia."
+    },
+    {
+        type: "single",
+        category: "Fisiología Bacteriana",
+        q: "El rango 42°C - 45°C se denomina:",
+        options: ["Límite crítico de pasteurización.", "Rango de desnaturalización proteica.", "Rango operativo de seguridad para inóculo.", "Punto de ebullición controlado."],
+        correct: "Rango operativo de seguridad para inóculo.",
+        fb: "Es el margen de temperatura donde el cultivo sobrevive y comienza su actividad metabólica óptima."
+    },
+    {
+        type: "single",
+        category: "Estudio de Caso",
+        q: "Caso: Usted decide no precalentar el termo de comida. ¿Qué problema físico ocurrirá?",
+        options: ["La leche se pasteurizará dos veces.", "Se perderá el calor necesario para la fermentación.", "El yogurt quedará demasiado denso (tipo griego).", "Las caseínas se quemarán por conducción."],
+        correct: "Se perderá el calor necesario para la fermentación.",
+        fb: "Un termo frío absorbe el calor de la leche, bajando la temperatura por debajo de los 40°C e inactivando el proceso."
+    },
+    {
+        type: "single",
+        category: "Manejo de Producto",
+        q: "¿Cómo debe verterse el yogurt sobre el lienzo de filtrado?",
+        options: ["Con agitación mecánica vigorosa.", "Con extrema suavidad para no romper el gel.", "Filtrando a presión usando una prensa.", "Previamente licuado para agilizar el paso."],
+        correct: "Con extrema suavidad para no romper el gel.",
+        fb: "La red de proteínas es delicada; romperla excesivamente hace que se pierda material sólido por los poros de la tela."
+    },
+    {
+        type: "fill",
+        category: "Consistencia",
+        q: "Para lograr una consistencia auténticamente GRIEGA, el tiempo de filtrado debe ser de 3 a <input type='text' class='blank-input' style='width:40px'> horas.",
+        correct: "4",
+        fb: "El estándar fijado para la textura untuosa máxima es de 3 a 4 horas en frío."
+    },
+    {
+        type: "drag",
+        category: "Estructura de Proceso",
+        q: "Arrastrar y Soltar: Ordene de arriba hacia abajo los bloques para secuenciar correctamente el protocolo físico y de inocuidad:",
+        options: ["FASE: Sanitización obligatoria por hervor (utensilios a 100°C).", "FASE: Pasteurización crítica (85°C-88°C) y disolución de harinas.", "FASE: Inoculación controlada (43°C) e incubación hermética.", "FASE: Desuerado mecánico en lienzo (ambiente refrigerado ≤ 4°C)."],
+        correct: ["FASE: Sanitización obligatoria por hervor (utensilios a 100°C).", "FASE: Pasteurización crítica (85°C-88°C) y disolución de harinas.", "FASE: Inoculación controlada (43°C) e incubación hermética.", "FASE: Desuerado mecánico en lienzo (ambiente refrigerado ≤ 4°C)."],
+        fb: "El flujo de proceso inicia con la esterilización de utensilios, sigue el tratamiento térmico, inoculación/incubación y termina en el filtrado en frío."
     }
 ];
 
@@ -237,15 +449,15 @@ let studentName = "";
 function startQuiz() {
     const nameInput = document.getElementById("student-name").value.trim();
     if (nameInput.length < 5) {
-        alert("Por favor, ingrese un nombre de prueba de al menos 5 letras.");
+        alert("Por favor, ingrese su nombre y apellidos completos.");
         return;
     }
     studentName = nameInput;
     document.getElementById("screen-login").classList.remove("active");
     document.getElementById("screen-quiz").classList.add("active");
     
-    // Mantenemos las 2 preguntas fijas para la simulación rápida
-    questions = [...rawData];
+    // Mezclar el banco de preguntas al azar
+    questions = [...rawData].sort(() => Math.random() - 0.5);
     renderQuestion();
 }
 
@@ -262,17 +474,26 @@ function renderQuestion() {
     nextBtn.onclick = processNext;
     feedback.style.display = "none";
     progress.textContent = `${currentIdx + 1} / ${questions.length}`;
-    badge.textContent = data.category + " | Rápida";
+    badge.textContent = data.category + " | " + getTypeName(data.type);
 
     let html = `<div class="question-text">${data.q}</div>`;
 
-    if (data.type === "single") {
+    if (data.type === "single" || data.type === "boolean") {
         html += `<div class="options-list">`;
         data.options.forEach(opt => {
             html += `<div class="option" onclick="selectSingle(this, '${opt}')">${opt}</div>`;
         });
         html += `</div>`;
     } 
+    else if (data.type === "multiple-choice") {
+        html += `<p style='font-size:12px; color:var(--error); margin-top:-10px;'>* Marque todas las casillas correctas simultáneamente</p><div class="options-list">`;
+        data.options.forEach(opt => {
+            html += `<div class="option" onclick="selectMultiple(this, '${opt}')">
+                        <input type="checkbox" class="checkbox"> <span>${opt}</span>
+                     </div>`;
+        });
+        html += `</div>`;
+    }
     else if (data.type === "fill") {
         setTimeout(() => {
             const inp = area.querySelector('.blank-input');
@@ -284,11 +505,34 @@ function renderQuestion() {
             }
         }, 50);
     }
+    else if (data.type === "drag") {
+        html += `<p style='font-size:12px; color:var(--primary); margin-top:-10px;'>* Arrastre los bloques para ordenarlos lógicamente de arriba hacia abajo</p>
+                 <div class="drag-zone" id="drag-zone-area">`;
+        let shuffledItems = [...data.options].sort(() => Math.random() - 0.5);
+        shuffledItems.forEach((opt, idx) => {
+            html += `<div class="drag-item" draggable="true" id="drag-${idx}" ondragstart="drag(event)">${opt}</div>`;
+        });
+        html += `</div>`;
+        setTimeout(() => {
+            nextBtn.disabled = false;
+            initDragAndDrop();
+        }, 50);
+    }
 
     area.innerHTML = html;
 }
 
+function getTypeName(type) {
+    if (type === "single") return "Selección Única";
+    if (type === "boolean") return "Verdadero o Falso";
+    if (type === "multiple-choice") return "Casillas de Verificación";
+    if (type === "fill") return "Rellenar Espacio en Blanco";
+    if (type === "drag") return "Arrastrar y Ordenar";
+    return "";
+}
+
 let tempSelection = null;
+let tempMultiSelection = [];
 
 function selectSingle(el, val) {
     document.querySelectorAll(".option").forEach(o => o.classList.remove("selected"));
@@ -297,17 +541,73 @@ function selectSingle(el, val) {
     document.getElementById("btn-next").disabled = false;
 }
 
+function selectMultiple(el, val) {
+    const cb = el.querySelector(".checkbox");
+    if (tempMultiSelection.includes(val)) {
+        tempMultiSelection = tempMultiSelection.filter(v => v !== val);
+        el.classList.remove("selected");
+        cb.checked = false;
+    } else {
+        tempMultiSelection.push(val);
+        el.classList.add("selected");
+        cb.checked = true;
+    }
+    document.getElementById("btn-next").disabled = tempMultiSelection.length === 0;
+}
+
+// FUNCIONES DRAG & DROP NATIVAS
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function initDragAndDrop() {
+    const zone = document.getElementById("drag-zone-area");
+    zone.addEventListener("dragover", (e) => e.preventDefault());
+    zone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        const id = e.dataTransfer.getData("text");
+        const draggedEl = document.getElementById(id);
+        const afterElement = getDragAfterElement(zone, e.clientY);
+        if (afterElement == null) {
+            zone.appendChild(draggedEl);
+        } else {
+            zone.insertBefore(draggedEl, afterElement);
+        }
+    });
+}
+
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.drag-item:not(.dragging)')];
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+// LOGICA DE PROCESAMIENTO SIN IDs FIJOS
 function processNext() {
     const data = questions[currentIdx];
     const feedback = document.getElementById("feedback-area");
     const nextBtn = document.getElementById("btn-next");
     let isCorrect = false;
 
-    if (data.type === "single") {
+    if (data.type === "single" || data.type === "boolean") {
         isCorrect = (tempSelection === data.correct);
         markOptions(data.correct);
     } 
+    else if (data.type === "multiple-choice") {
+        const sortedCorrect = [...data.correct].sort().join(",");
+        const sortedSelected = [...tempMultiSelection].sort().join(",");
+        isCorrect = (sortedCorrect === sortedSelected);
+        markMultiOptions(data.correct);
+    }
     else if (data.type === "fill") {
+        // CORRECCIÓN RADICAL: Extrae el valor directamente del input activo en pantalla
         const currentInput = document.querySelector(".blank-input");
         if (currentInput) {
             const userText = currentInput.value.trim().toLowerCase();
@@ -315,6 +615,11 @@ function processNext() {
             currentInput.disabled = true;
             currentInput.style.backgroundColor = isCorrect ? "#d1fae5" : "#fee2e2";
         }
+    }
+    else if (data.type === "drag") {
+        const items = [...document.querySelectorAll(".drag-item")].map(el => el.textContent.trim());
+        isCorrect = (JSON.stringify(items) === JSON.stringify(data.correct));
+        document.querySelectorAll(".drag-item").forEach(el => el.setAttribute("draggable", "false"));
     }
 
     if (isCorrect) {
@@ -331,6 +636,7 @@ function processNext() {
     nextBtn.onclick = () => {
         currentIdx++;
         tempSelection = null;
+        tempMultiSelection = [];
         if (currentIdx < questions.length) {
             renderQuestion();
         } else {
@@ -347,21 +653,32 @@ function markOptions(correct) {
     });
 }
 
-// 🟩 TRANSMISIÓN DIRECTA ASÍNCRONA UTILIZANDO TU URL REAL VERIFICADA 🟩
+function markMultiOptions(correctArray) {
+    document.querySelectorAll(".option").forEach(el => {
+        el.onclick = null;
+        const text = el.querySelector("span") ? el.querySelector("span").textContent.trim() : el.textContent.trim();
+        if (correctArray.includes(text)) el.classList.add("correct");
+        else if (el.classList.contains("selected")) el.classList.add("wrong");
+    });
+}
+
+// CONEXIÓN AUTOMÁTICA REAL CON GOOGLE SHEETS
 function sendToGoogleSheets(name, finalScore) {
     const googleFormURL = "https://docs.google.com/forms/d/e/1FAIpQLSdQXeK4d6-ewiVCq8PjfiMV_cBxE9G8Vck6wj2IVStyTJ3tNw/formResponse";
     
     const formData = new FormData();
-    formData.append("entry.2117070562", name);
-    formData.append("entry.504388979", finalScore);
+    
+    // Inyección de datos usando tus dos códigos entry validados
+    formData.append("entry.2117070562", name);       // Nombre del Estudiante
+    formData.append("entry.504388979", finalScore);  // Calificación obtenida
 
     fetch(googleFormURL, {
         method: "POST",
         mode: "no-cors",
         body: formData
     })
-    .then(() => console.log("Prueba transmitida con éxito."))
-    .catch((error) => console.error("Error de red en el puente:", error));
+    .then(() => console.log("Nota enviada exitosamente a Google Sheets."))
+    .catch((error) => console.error("Error al registrar la calificación:", error));
 }
 
 function showResults() {
@@ -374,12 +691,15 @@ function showResults() {
     const now = new Date();
     document.getElementById("res-time").textContent = `Emitido el: ${now.toLocaleDateString()} a las ${now.toLocaleTimeString()}`;
 
-    // EJECUCIÓN DEL ENVÍO AL CARGAR LA PANTALLA FINAL
+    // Disparador del envío automático integrado
     sendToGoogleSheets(studentName, `${score} / ${questions.length}`);
 
     let msg = "";
-    if (score === 2) msg = "Test Perfecto. El sistema de bases de datos corre de forma óptima.";
-    else msg = "Test Completado. Conexión de red establecida.";
+    const pct = (score / questions.length) * 100;
+    if (pct >= 90) msg = "Nivel: EXPERTO AUDITOR HACCP. Dominio absoluto del proceso y flujos técnicos.";
+    else if (pct >= 70) msg = "Nivel: TÉCNICO CALIFICADO. Buen manejo de parámetros operativos.";
+    else if (pct >= 60) msg = "Nivel: OPERARIO BASE. Aprobado, pero requiere repaso analítico de PCC.";
+    else msg = "Nivel: NO CALIFICADO. Se recomienda reestudiar rigurosamente el protocolo de planta.";
     
     document.getElementById("res-message").textContent = msg;
 }

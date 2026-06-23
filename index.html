@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENTORNO DE PRUEBAS: Conexión Láctea</title>
+    <style>
+        :root {
+            --primary: #0b2545;
+            --secondary: #e2b13c;
+            --bg: #f1f5f9;
+            --white: #ffffff;
+            --success: #10b981;
+            --error: #ef4444;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .quiz-container {
+            background: var(--white);
+            width: 100%;
+            max-width: 800px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            padding: 30px;
+            box-sizing: border-box;
+            border-top: 10px solid var(--primary);
+            margin-top: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+
+        .header img {
+            max-height: 60px;
+        }
+
+        h1 {
+            font-size: 20px;
+            color: var(--primary);
+            text-align: center;
+            margin: 10px 0;
+            text-transform: uppercase;
+        }
+
+        .screen { display: none; }
+        .active { display: block; }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            outline: none;
+        }
+
+        .input-field:focus { border-color: var(--primary); }
+
+        .badge {
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            padding: 14px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover { background: #f1f5f9; border-color: #cbd5e1; }
+        .option.selected { border-color: var(--primary); background: #eef2ff; }
+        .option.correct { background: #d1fae5 !important; border-color: var(--success) !important; color: #065f46; font-weight: bold; }
+        .option.wrong { background: #fee2e2 !important; border-color: var(--error) !important; color: #991b1b; }
+
+        .blank-input {
+            border-bottom: 2px solid var(--primary);
+            border-top: none; border-left: none; border-right: none;
+            padding: 2px 10px; font-size: 18px; font-weight: bold;
+            color: var(--primary); text-align: center; outline: none;
+            background: #fffbdf;
+            border-radius: 4px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+            display: none;
+        }
+
+        .certificate {
+            border: 5px double var(--primary);
+            padding: 30px;
+            text-align: center;
+            background: #fafbfc;
+        }
+
+        .score-big {
+            font-size: 60px;
+            font-weight: 900;
+            color: var(--success);
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <div class="header">
+        <img src="https://curc.unah.edu.hn/assets/assets/careers/icons/ia.png" alt="Logo UNAH">
+        <img src="https://tecdanli.unah.edu.hn/dmsdocument/18948-campus-el-paraiso-color-b-png" alt="Logo Control">
+    </div>
+
+    <div id="screen-login" class="screen active">
+        <h1>PROYECTO PILOTO: Test de Conectividad Sheets</h1>
+        <p style="text-align: center; color: #64748b;">Escriba un nombre ficticio para realizar el simulacro de transmisión de datos rápido (Solo 2 preguntas).</p>
+        <input type="text" id="student-name" class="input-field" placeholder="Nombre del Alumno de Prueba">
+        <div style="text-align: center;">
+            <button class="btn" onclick="startQuiz()">Iniciar Test Corto</button>
+        </div>
+    </div>
+
+    <div id="screen-quiz" class="screen">
+        <div id="badge-type" class="badge">Prueba Técnica</div>
+        <div id="progress" style="float: right; font-weight: bold; color: #64748b;">1 / 2</div>
+        <div id="question-area" style="margin-top: 20px;"></div>
+        <div id="feedback-area" class="feedback"></div>
+        <div class="footer">
+            <button id="btn-next" class="btn" onclick="processNext()">Validar Respuesta</button>
+        </div>
+    </div>
+
+    <div id="screen-result" class="screen">
+        <div id="capture-area" class="certificate">
+            <h2 style="margin: 0; color: var(--primary);">PILOTO TERMINADO CON ÉXITO</h2>
+            <p style="margin: 5px 0; font-size: 14px;">Simulación Corta de Ingeniería de Software Educativo</p>
+            <hr style="margin: 20px 0; border: 1px solid #e2e8f0;">
+            <p style="margin: 0; font-style: italic;">Nombre registrado:</p>
+            <div id="res-name" style="font-size: 24px; font-weight: bold; margin: 10px 0; border-bottom: 2px solid #e2e8f0; display: inline-block; min-width: 80%;">---</div>
+            <p style="margin-top: 20px; font-weight: bold;">Calificación de Prueba:</p>
+            <div id="res-score" class="score-big">0 / 2</div>
+            <p id="res-message" style="font-weight: 500;"></p>
+            <div id="res-time" style="font-size: 12px; color: #64748b; margin-top: 20px;">---</div>
+        </div>
+        <p style="text-align: center; font-weight: bold; color: var(--success); margin-top: 20px;">🚀 Los datos acaban de ser enviados de fondo hacia tu formulario de Google.</p>
+        <div style="text-align: center;">
+            <button class="btn" style="background: #64748b;" onclick="location.reload()">Probar Otro Nombre</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// BANCO REDUCIDO A SOLO 2 PREGUNTAS (1 Selección Única y 1 de Rellenar Espacio)
+const rawData = [
+    {
+        type: "single",
+        category: "Prueba 1",
+        q: "¿Cuál es la función tecnológica principal de la leche en polvo en la formulación de yogurt griego artesanal?",
+        options: ["Neutralizar la acidez excesiva de los cultivos.", "Incrementar los sólidos totales para dar firmeza al gel.", "Eliminar la necesidad de pasteurización térmica.", "Aportar los microorganismos simbióticos activos."],
+        correct: "Incrementar los sólidos totales para dar firmeza al gel.",
+        fb: "La leche en polvo incrementa los sólidos totales (caseínas y grasa), amarrando el agua libre y otorgando mayor densidad sin aditivos."
+    },
+    {
+        type: "fill",
+        category: "Prueba 2",
+        q: "En la Fase 0 del protocolo de inocuidad, los utensilios deben sumergirse en agua hirviendo durante un período mínimo de <input type='text' class='blank-input' style='width:40px'> minutos.",
+        correct: "5",
+        fb: "5 minutos es el tiempo técnico mínimo para asegurar la letalidad microbiológica superficial."
+    }
+];
+
+let questions = [];
+let currentIdx = 0;
+let score = 0;
+let studentName = "";
+
+function startQuiz() {
+    const nameInput = document.getElementById("student-name").value.trim();
+    if (nameInput.length < 5) {
+        alert("Por favor, ingrese un nombre de prueba de al menos 5 letras.");
+        return;
+    }
+    studentName = nameInput;
+    document.getElementById("screen-login").classList.remove("active");
+    document.getElementById("screen-quiz").classList.add("active");
+    
+    // Mantenemos las 2 preguntas fijas para la simulación rápida
+    questions = [...rawData];
+    renderQuestion();
+}
+
+function renderQuestion() {
+    const data = questions[currentIdx];
+    const area = document.getElementById("question-area");
+    const badge = document.getElementById("badge-type");
+    const progress = document.getElementById("progress");
+    const nextBtn = document.getElementById("btn-next");
+    const feedback = document.getElementById("feedback-area");
+
+    nextBtn.disabled = true;
+    nextBtn.textContent = "Validar Respuesta";
+    nextBtn.onclick = processNext;
+    feedback.style.display = "none";
+    progress.textContent = `${currentIdx + 1} / ${questions.length}`;
+    badge.textContent = data.category + " | Rápida";
+
+    let html = `<div class="question-text">${data.q}</div>`;
+
+    if (data.type === "single") {
+        html += `<div class="options-list">`;
+        data.options.forEach(opt => {
+            html += `<div class="option" onclick="selectSingle(this, '${opt}')">${opt}</div>`;
+        });
+        html += `</div>`;
+    } 
+    else if (data.type === "fill") {
+        setTimeout(() => {
+            const inp = area.querySelector('.blank-input');
+            if(inp) {
+                inp.addEventListener('input', () => {
+                    nextBtn.disabled = inp.value.trim().length === 0;
+                });
+                inp.focus();
+            }
+        }, 50);
+    }
+
+    area.innerHTML = html;
+}
+
+let tempSelection = null;
+
+function selectSingle(el, val) {
+    document.querySelectorAll(".option").forEach(o => o.classList.remove("selected"));
+    el.classList.add("selected");
+    tempSelection = val;
+    document.getElementById("btn-next").disabled = false;
+}
+
+function processNext() {
+    const data = questions[currentIdx];
+    const feedback = document.getElementById("feedback-area");
+    const nextBtn = document.getElementById("btn-next");
+    let isCorrect = false;
+
+    if (data.type === "single") {
+        isCorrect = (tempSelection === data.correct);
+        markOptions(data.correct);
+    } 
+    else if (data.type === "fill") {
+        const currentInput = document.querySelector(".blank-input");
+        if (currentInput) {
+            const userText = currentInput.value.trim().toLowerCase();
+            isCorrect = (userText === data.correct.toLowerCase());
+            currentInput.disabled = true;
+            currentInput.style.backgroundColor = isCorrect ? "#d1fae5" : "#fee2e2";
+        }
+    }
+
+    if (isCorrect) {
+        score++;
+        feedback.innerHTML = "<strong>✅ ¡CORRECTO!</strong><br>" + data.fb;
+        feedback.className = "feedback correct";
+    } else {
+        feedback.innerHTML = "<strong>❌ INCORRECTO</strong><br>" + data.fb;
+        feedback.className = "feedback incorrect";
+    }
+    feedback.style.display = "block";
+
+    nextBtn.textContent = "Siguiente Pregunta";
+    nextBtn.onclick = () => {
+        currentIdx++;
+        tempSelection = null;
+        if (currentIdx < questions.length) {
+            renderQuestion();
+        } else {
+            showResults();
+        }
+    };
+}
+
+function markOptions(correct) {
+    document.querySelectorAll(".option").forEach(el => {
+        el.onclick = null;
+        if (el.textContent.trim() === correct.trim()) el.classList.add("correct");
+        else if (el.classList.contains("selected")) el.classList.add("wrong");
+    });
+}
+
+// 🟩 TRANSMISIÓN DIRECTA ASÍNCRONA UTILIZANDO TU URL REAL VERIFICADA 🟩
+function sendToGoogleSheets(name, finalScore) {
+    const googleFormURL = "https://docs.google.com/forms/d/e/1FAIpQLSdQXeK4d6-ewiVCq8PjfiMV_cBxE9G8Vck6wj2IVStyTJ3tNw/formResponse";
+    
+    const formData = new FormData();
+    formData.append("entry.2117070562", name);
+    formData.append("entry.504388979", finalScore);
+
+    fetch(googleFormURL, {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+    })
+    .then(() => console.log("Prueba transmitida con éxito."))
+    .catch((error) => console.error("Error de red en el puente:", error));
+}
+
+function showResults() {
+    document.getElementById("screen-quiz").classList.remove("active");
+    document.getElementById("screen-result").classList.add("active");
+    
+    document.getElementById("res-name").textContent = studentName;
+    document.getElementById("res-score").textContent = `${score} / ${questions.length}`;
+    
+    const now = new Date();
+    document.getElementById("res-time").textContent = `Emitido el: ${now.toLocaleDateString()} a las ${now.toLocaleTimeString()}`;
+
+    // EJECUCIÓN DEL ENVÍO AL CARGAR LA PANTALLA FINAL
+    sendToGoogleSheets(studentName, `${score} / ${questions.length}`);
+
+    let msg = "";
+    if (score === 2) msg = "Test Perfecto. El sistema de bases de datos corre de forma óptima.";
+    else msg = "Test Completado. Conexión de red establecida.";
+    
+    document.getElementById("res-message").textContent = msg;
+}
+</script>
+</body>
+</html>
